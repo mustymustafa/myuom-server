@@ -1,0 +1,8 @@
+{
+  "name": "myuom-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mustymustafa/myuom-server.git",
+  "author": "musty <mustafaumar70@live.com>",
+  "license": "MIT"
+}
