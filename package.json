@@ -50,8 +50,12 @@
 
   },
   "devDependencies": {
-      "jest": "*",
-    "nodemon": "*",
-    "tslint": "*"
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.2",
+    "tslint": "^6.1.1"
+  },
+  "engines": {
+    "node": "14.17.0",
+    "yarn": "1.22.10"
   }
 }
