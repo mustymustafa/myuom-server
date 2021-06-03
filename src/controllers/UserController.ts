@@ -34,9 +34,7 @@ var transporter = nodemailer.createTransport({
     //signup function
 
     static async signup(request: Request, response: Response){
-          const {
-      fullname, email,  password, cpassword
-    } = request.body;
+          const {fullname, email,  password, cpassword} = request.body;
 
     console.log(request.body);
 
