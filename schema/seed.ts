@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 
-import Schema from './schema';
+import Schema from './schema'
 
 
 const salt = bcrypt.genSaltSync(10);
