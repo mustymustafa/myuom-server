@@ -87,6 +87,33 @@ var transporter = nodemailer.createTransport({
 
 }
 
+  
+
+//sign in
+  static async signin (request: Request, response: Response) {
+    const {
+      email, password
+    } = request.body;
+    console.log(email)
+
+    const foundUser:any = await Schema.User().findOne({email: email.trim()});
+
+    if (foundUser && Object.keys(foundUser).length > 0) {
+      if (!bcrypt.compareSync(password, foundUser.password)) {
+        return response.status(403).send({
+          message: 'Incorrect Password'
+        });
+      }
+      return response.status(200).send({
+        token: UserController.generateToken(foundUser)
+      });
+    } else {
+      return response.status(401).send({
+        message: 'Incorrect Username or Password'
+      });
+    }
+  }
+
 // continue signup
     static async setProfile(request: Request, response: Response){
             const {
