@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 import request from 'request';
 
-import Schema from '../../schema/schema';
+import Schema from '../schema/schema';
 
 
 import nodemailer from "nodemailer";

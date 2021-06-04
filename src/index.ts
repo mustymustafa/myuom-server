@@ -12,11 +12,11 @@ import { Expo } from "expo-server-sdk";
 import {upload} from './util'
 const expo = new Expo();
 
-import seedUser from '../schema/seed';
+import seedUser from './schema/seed';
 
 //import Schema from '../schema/schema';
 
-import Middleware from '../middleware/Middleware';
+import Middleware from './middleware/Middleware'
 import UserController from './controllers/UserController'
 
 //database 
