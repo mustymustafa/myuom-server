@@ -90,7 +90,7 @@ var transporter = nodemailer.createTransport({
 // continue signup
     static async setProfile(request: Request, response: Response){
             const {
-      pic, level, department, email
+     level, department, email
     } = request.body;
 
     console.log(request.body);
@@ -103,7 +103,6 @@ var transporter = nodemailer.createTransport({
           _id: foundUser._id
         }, {
           $set: {
-            pic: pic,
             level: level,
             department: department
           }
