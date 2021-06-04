@@ -12,6 +12,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const http_1 = __importDefault(require("http"));
 const expo_server_sdk_1 = require("expo-server-sdk");
 const expo = new expo_server_sdk_1.Expo();
+//import Schema from '../schema/schema';
 const Middleware_1 = __importDefault(require("../middleware/Middleware"));
 const UserController_1 = __importDefault(require("./controllers/UserController"));
 //database 

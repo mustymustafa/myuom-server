@@ -12,10 +12,10 @@ class Schema {
             email: String,
             password: String,
             pushToken: String,
-            pic: String,
             confirmationCode: String,
+            pic: String,
             level: String,
-            department: String,
+            dept: String,
             isConfirmed: Boolean,
             createdAt: String,
         });

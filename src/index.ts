@@ -14,7 +14,7 @@ const expo = new Expo();
 
 import seedUser from '../schema/seed';
 
-import Schema from '../schema/schema';
+//import Schema from '../schema/schema';
 
 import Middleware from '../middleware/Middleware';
 import UserController from './controllers/UserController'
