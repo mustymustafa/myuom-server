@@ -33,6 +33,7 @@ var transporter = nodemailer.createTransport({
  class UserController {
     //signup function
 
+
     static async signup(request: Request, response: Response){
           const {fullname, email,  password, cpassword} = request.body;
 
@@ -170,9 +171,7 @@ var transporter = nodemailer.createTransport({
 
   //send otp
   static async resendOtp(request: Request, response: Response) {
-    const {
-      email
-    } = request.body;
+    const { email} = request.body;
     console.log(email)
 
     const confirmationCode = String(Date.now()).slice(9, 13);
@@ -223,11 +222,10 @@ var transporter = nodemailer.createTransport({
         }
       });
       const message = `Token: ${confirmationCode}`;
-     UserController.sendMail(user.email, message, 'Password change');
-      response.status(200).send({
+      UserController.sendMail(user.email, message, 'Password change');
+      return response.status(200).send({
         message: 'Please check your email for token'
       });
-      return;
     } catch (error) {
         console.log(error.toString(), "========")
         return response.status(500).send({
