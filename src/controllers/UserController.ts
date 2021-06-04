@@ -285,13 +285,15 @@ var transporter = nodemailer.createTransport({
 
   //upload images
   static uploadimage(req: Request, res: Response) {
+    console.log(req.file.originalname.split(' '))
     const parts = req.file.originalname.split(' ')
     const find = parts[0]
     console.log(find)
     res.json(req.file)
   }
-  static async setId(request: Request, res: Response) {
 
+
+  static async setId(request: Request, res: Response) {
 
     console.log(request.body)
     try {
