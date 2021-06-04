@@ -44,7 +44,7 @@ app.post('/api/v1/forgot-password', UserController.forgotPassword);
 app.post('/api/v1/change-password', UserController.changePassword);
 
 //image upload route
-app.post('/api/v1/image', upload.single('image'), UserController.uploadimage);
+//app.post('/api/v1/image', upload.single('image'), UserController.uploadimage);
 
 
 
