@@ -36,6 +36,15 @@ app.use(cookieParser());
 
 //routes
 app.post('/api/v1/signup', Middleware.SignupMiddleware, UserController.signup);
+app.post('/api/v1/signin', Middleware.signinMiddleware, UserController.signup);
+
+app.post('/api/v1/confirmation', UserController.confirm);
+app.post('/api/v1/resend-otp', UserController.resendOtp);
+app.post('/api/v1/forgot-password', UserController.forgotPassword);
+app.post('/api/v1/change-password', UserController.changePassword);
+
+//image upload route
+app.post('/api/v1/image', upload.single('image'), UserController.uploadimage);
 
 
 

@@ -122,6 +122,167 @@ var transporter = nodemailer.createTransport({
     }
 
 
+//confirmation
+  //confrimation code
+  static async confirm (request: Request, response: Response) {
+    const {
+      email, confirmationCode
+    } = request.body;
+
+    const foundUser:any = await Schema.User().findOne({email});
+
+    if (foundUser && Object.keys(foundUser).length > 0) {
+      if (foundUser.confirmationCode !== confirmationCode) {
+        return response.status(403).send({
+          message: 'Incorrect confirmation code'
+        });
+      }
+      try {
+        const dt = new Date();
+        const createdAt = dt.toLocaleDateString();
+        console.log(createdAt)
+
+        await Schema.User().updateOne({
+          _id: foundUser._id
+        }, {
+          $set: {
+            isConfirmed: true,
+            createdAt: createdAt
+          }
+        });
+
+        foundUser.isConfirmed = true;
+        return response.status(200).send({
+          token: UserController.generateToken(foundUser)
+        });
+      } catch (error) {
+        console.log(error.toString());
+        response.status(500).send({
+          message: 'something went wrong'
+        });
+      }
+    } else {
+      return response.status(401).send({
+        message: 'Incorrect Username or Password'
+      });
+    }
+  }
+
+  //send otp
+  static async resendOtp(request: Request, response: Response) {
+    const {
+      email
+    } = request.body;
+    console.log(email)
+
+    const confirmationCode = String(Date.now()).slice(9, 13);
+    try {
+      await Schema.User()
+        .updateOne({
+          email,
+        }, {
+        $set: {
+          confirmationCode
+        }
+      });
+      const message = `Token: ${confirmationCode}`;
+      UserController.sendMail(email, message, 'Confirmation Code');
+      response.status(200).send({
+        message: 'Please check your mailbox for token'
+      });
+      return;
+    } catch (error) {
+        console.log(error.toString(), "========")
+        return response.status(500).send({
+          message: 'Something went wrong'
+        })
+    }
+  }
+
+  //forgot password
+  static async forgotPassword (request: Request, response: Response) {
+    const {
+      email
+    } = request.body;
+  
+    const user = await Schema.User().findOne({email: email.trim()});
+    if (!user) {
+      return response.status(404).send({
+        message: 'User does not exist'
+      });
+    }
+
+    const confirmationCode = String(Date.now()).slice(9, 13);
+    try {
+      await Schema.User()
+        .updateOne({
+          _id: user._id,
+        }, {
+        $set: {
+          confirmationCode
+        }
+      });
+      const message = `Token: ${confirmationCode}`;
+     UserController.sendMail(user.email, message, 'Password change');
+      response.status(200).send({
+        message: 'Please check your email for token'
+      });
+      return;
+    } catch (error) {
+        console.log(error.toString(), "========")
+        return response.status(500).send({
+          message: 'Something went wrong'
+        })
+    }
+  }
+
+  //change password
+  static async changePassword (request: Request, response: Response) {
+    const {
+      confirmationCode,
+      password,
+      email
+    } = request.body;
+    if (!confirmationCode || !confirmationCode.trim()) {
+      return response.status(400).send({
+        message: "Token is required"
+      });
+    }
+    if (!password || !password.trim()) {
+      return response.status(400).send({
+        message: "Password is required"
+      });
+    }
+    const user = await Schema.User().findOne({email: email.trim()});
+    if (!user) {
+      return response.status(404).send({
+        message: 'User does not exist'
+      });
+    }
+    if (user.confirmationCode !== confirmationCode) {
+      return response.status(403).send({
+        message: "Incorrect token code"
+      });
+    }
+    try {
+      await Schema.User()
+        .updateOne({
+          _id: user._id,
+        }, {
+        $set: {
+          password: bcrypt.hashSync(password.trim(), UserController.generateSalt()),
+        }
+      });
+      return response.status(200).send({
+        token: UserController.generateToken(user)
+      });
+    } catch (error) {
+        console.log(error.toString(), "========")
+        return response.status(500).send({
+          message: 'Something went wrong'
+        })
+    }
+  }
 
 
   //upload images
