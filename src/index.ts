@@ -38,6 +38,8 @@ app.use(cookieParser());
 app.post('/api/v1/signup', Middleware.SignupMiddleware, UserController.signup);
 app.post('/api/v1/set-profile', UserController.setProfile);
 app.post('/api/v1/signin', Middleware.signinMiddleware, UserController.signin);
+//get user details
+app.get('/api/v1/user/:uid', UserController.userDetails);
 
 app.post('/api/v1/confirmation', UserController.confirm);
 app.post('/api/v1/resend-otp', UserController.resendOtp);

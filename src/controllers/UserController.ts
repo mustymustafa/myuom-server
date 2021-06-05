@@ -382,6 +382,49 @@ var transporter = nodemailer.createTransport({
   }
 
 
+  //get user
+  static async userDetails(request: Request, response: Response){
+
+    const {uid} = request.params;
+    console.log(uid)
+
+    try {
+      const user = await Schema.User().findOne({_id: uid});
+      console.log(user)
+      if (user && Object.keys(user).length) {
+        response.status(200).send({
+          user
+        });
+        console.log(user)
+      } else {
+        response.status(404).send({
+          message: 'Cannot find details for this user'
+        });
+        console.log("not found")
+      }
+    } catch (error) {
+      return response.status(500).send({
+        message: 'Something went wrong'
+      })
+    }
+  }
+
+
+
+
+  //get activity
+
+
+
+
+
+
+
+
+
+
+
+
 
 //send email function
  static sendMail (email: string, message: string, subject: string) {
