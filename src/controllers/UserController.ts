@@ -400,7 +400,7 @@ var transporter = nodemailer.createTransport({
 
   }
 
-    static async updateId(request: Request, res: Response) {
+  static async updateId(request: Request, res: Response) {
 
     console.log(request.body)
     try {

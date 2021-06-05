@@ -51,7 +51,7 @@ app.post('/api/v1/change-password', UserController.changePassword);
 app.post('/api/v1/image', upload.single('image'), UserController.uploadimage);
 //set images
 app.post('/api/v1/setid', UserController.setId);
-app.post('/api/v1/updateid', UserController.setId);
+app.post('/api/v1/updateid', UserController.updateId);
 
 
 
