@@ -148,6 +148,45 @@ var transporter = nodemailer.createTransport({
 
     }
 
+    //update profile
+  static async updateUser(request: Request, response: Response) {
+
+    const {
+      uid, department, level
+    } = request.body;
+
+    console.log(request.body);
+    const foundUser: any = await Schema.User().findOne({ _id: uid });
+
+    if (foundUser && Object.keys(foundUser).length > 0) {
+      console.log(foundUser);
+     
+      try {
+        await Schema.User().updateOne({
+          _id: uid
+        }, {
+          $set: {
+            department: department,
+            level: level
+          }
+        });
+
+
+        return response.status(200).send({
+          message: 'User updated successfully',
+          status: 201
+        });
+      } catch (error) {
+        console.log(error.toString());
+        response.status(500).send({
+          message: 'something went wrong'
+        });
+      }
+    }
+
+
+  }
+
 
 //confirmation
   //confrimation code
