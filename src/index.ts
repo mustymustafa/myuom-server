@@ -37,6 +37,7 @@ app.use(cookieParser());
 //routes
 app.post('/api/v1/signup', Middleware.SignupMiddleware, UserController.signup);
 app.post('/api/v1/set-profile', UserController.setProfile);
+app.post('/api/v1/update-profile', UserController.updateUser);
 app.post('/api/v1/signin', Middleware.signinMiddleware, UserController.signin);
 //get user details
 app.get('/api/v1/user/:uid', UserController.userDetails);
