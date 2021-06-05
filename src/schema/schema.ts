@@ -14,7 +14,7 @@ class Schema {
             confirmationCode: String,
             pic: String,
             level: String,
-            dept: String,
+            department: String,
             isConfirmed: Boolean,
           
             createdAt: String,
