@@ -400,6 +400,48 @@ var transporter = nodemailer.createTransport({
 
   }
 
+    static async updateId(request: Request, res: Response) {
+
+    console.log(request.body)
+    try {
+      const uid = request.body.uid;
+      const image = request.body.image
+      console.log(image)
+
+
+
+
+      const foundUser: any = await Schema.User().findOne({ _id: uid });
+
+      if (foundUser && Object.keys(foundUser).length > 0) {
+        console.log(foundUser);
+
+        await Schema.User().updateOne({
+          _id: uid
+        }, {
+          $set: {
+            pic: image
+
+          }
+        });
+
+
+        return res.status(200).send("profile picture updated")
+      }
+    } catch (error) {
+      console.log(error.toString());
+      res.status(500).send({
+        message: 'something went wrong'
+      });
+    }
+
+
+
+
+
+  }
+
+
 
 
 
