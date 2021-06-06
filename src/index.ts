@@ -9,7 +9,7 @@ import request from 'request'
 
 import cron from 'node-cron';
 import { Expo } from "expo-server-sdk";
-import {upload} from './util'
+import {upload, uploadFile} from './util'
 const expo = new Expo();
 
 import seedUser from './schema/seed';
@@ -57,11 +57,26 @@ app.post('/api/v1/setid', UserController.setId);
 app.post('/api/v1/updateid', UserController.updateId);
 
 
+//file upload route
+app.post('/api/v1/file', uploadFile.single('pdf'), ForumController.uploadfile);
 
 
 //forum
 //post a question
 app.post('/api/v1/post', ForumController.makePost);
+app.get('/api/v1/posts', ForumController.getPosts);
+app.post('/api/v1/:uid/posts', ForumController.getMyPosts);
+app.post('/api/v1/:pid/post', ForumController.getPost);
+app.post('/api/v1/comment', ForumController.addComment);
+app.post('/api/v1/:pid/comments', ForumController.getComments);
+app.post('/api/v1/:cid/like', ForumController.likeComment);
+app.post('/api/v1/:cid/dislike', ForumController.dlikeComment);
+
+
+
+
+
+
 
 
 //seedUser();

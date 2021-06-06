@@ -32,7 +32,7 @@ class ForumController {
 
     //add post
     static async makePost(request:Request, response: Response){
-        const {uid, post, file, pic} = request.body;
+        const {uid, post, file, pic, level, dept} = request.body;
 
 
               const user = await Schema.User().findOne({_id: uid});
@@ -46,7 +46,9 @@ class ForumController {
                         createdAt: today,
                         postedBy: user.name,
                         postedByPic: user.pic,
-                        time: now.getTime()
+                        time: now.getTime(),
+                        level: level,
+                        department: dept,
                     })
                        response.status(201).send({
               message: 'Post added successfully'
@@ -66,11 +68,12 @@ class ForumController {
     //show posts
      static async getPosts(request: Request, response: Response){
 
-    const {pid} = request.params;
-    console.log(pid)
+    const {pid, level, dept} = request.params;
+    //console.log(pid)
 
     try {
-      const posts = await Schema.Post().find();
+      const posts = await Schema.Post().find({level: level,
+                        department: dept,});
 
         response.status(200).send({
           posts })
@@ -269,6 +272,19 @@ class ForumController {
 
 
         }
+
+
+
+
+//upload file
+  static uploadfile(req: Request, res: Response) {
+    console.log(req.file.originalname.split(' '))
+    const parts = req.file.originalname.split(' ')
+    const find = parts[0]
+    console.log(find)
+    res.json(req.file)
+  }
+
         
 
 }

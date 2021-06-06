@@ -28,3 +28,21 @@ export const upload = multer({
     }
   })
 })
+
+
+// upload pdfs
+export const uploadFile = multer({
+  storage: multerS3({
+    s3,
+    bucket:  process.env.AWS_S3_BUCKET,
+    acl: 'public-read',
+    metadata(req:any, file:any, cb:any) {
+      console.log(cb)
+      console.log(file)
+      cb(null, {fieldName: file.fieldname});
+    },
+    key(req:any, file:any, cb:any) {
+      cb(null, Date.now().toString() + '.pdf');
+    }
+  })
+})
