@@ -18,6 +18,7 @@ import seedUser from './schema/seed';
 
 import Middleware from './middleware/Middleware'
 import UserController from './controllers/UserController'
+import ForumController from './controllers/ForumController'
 
 //database 
  mongoose.connect(
@@ -41,6 +42,8 @@ app.post('/api/v1/update-profile', UserController.updateUser);
 app.post('/api/v1/signin', Middleware.signinMiddleware, UserController.signin);
 //get user details
 app.get('/api/v1/user/:uid', UserController.userDetails);
+//push notification
+app.post('/api/v1/token/:uid', UserController.savePushToken);
 
 app.post('/api/v1/confirmation', UserController.confirm);
 app.post('/api/v1/resend-otp', UserController.resendOtp);
@@ -53,6 +56,12 @@ app.post('/api/v1/image', upload.single('image'), UserController.uploadimage);
 app.post('/api/v1/setid', UserController.setId);
 app.post('/api/v1/updateid', UserController.updateId);
 
+
+
+
+//forum
+//post a question
+app.post('/api/v1/post', ForumController.makePost);
 
 
 //seedUser();
