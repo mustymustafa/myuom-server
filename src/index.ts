@@ -64,7 +64,7 @@ app.post('/api/v1/file', uploadFile.single('pdf'), ForumController.uploadfile);
 //forum
 //post a question
 app.post('/api/v1/post', ForumController.makePost);
-app.get('/api/v1/posts', ForumController.getPosts);
+app.post('/api/v1/posts', ForumController.getPosts);
 app.post('/api/v1/:uid/posts', ForumController.getMyPosts);
 app.post('/api/v1/:pid/post', ForumController.getPost);
 app.post('/api/v1/comment', ForumController.addComment);
