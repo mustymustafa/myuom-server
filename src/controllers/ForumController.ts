@@ -69,8 +69,9 @@ class ForumController {
     //show posts
      static async getPosts(request: Request, response: Response){
 
-    const {pid, level, dept} = request.params;
-    //console.log(pid)
+    const {pid, level, dept} = request.body;
+    //console.log("level:" + level)
+
 
     try {
       const posts = await Schema.Post().find({level: level,
@@ -88,7 +89,7 @@ class ForumController {
       //show user posts
      static async getMyPosts(request: Request, response: Response){
 
-    const {uid} = request.params;
+    const {uid} = request.body;
     console.log(uid)
 
   const user = await Schema.User().findOne({_id: uid});
@@ -111,7 +112,7 @@ class ForumController {
   //get post
       static async getPost(request: Request, response: Response){
 
-    const {pid} = request.params;
+    const {pid} = request.body;
     console.log(pid)
 
     try {
@@ -174,7 +175,7 @@ class ForumController {
         //show comments
      static async getComments(request: Request, response: Response){
 
-    const {pid} = request.params;
+    const {pid} = request.body;
     console.log(pid)
 
     try {
@@ -192,7 +193,7 @@ class ForumController {
  // like comment
      static async likeComment(request: Request, response: Response){
 
-    const {cid, uid} = request.params;
+    const {cid, uid} = request.body;
     
       const user = await Schema.User().findOne({_id: uid});
             if(user){
@@ -235,7 +236,7 @@ class ForumController {
 //dislike comment
    static async dlikeComment(request: Request, response: Response){
 
-    const {cid, uid} = request.params;
+    const {cid, uid} = request.body;
     
       const user = await Schema.User().findOne({_id: uid});
             if(user){
