@@ -34,7 +34,8 @@ class ForumController {
     static async makePost(request:Request, response: Response){
         const {uid, post, file, pic, level, dept} = request.body;
 
-
+            console.log(uid)
+            console.log(post)
               const user = await Schema.User().findOne({_id: uid});
             if(user){
                 try{
