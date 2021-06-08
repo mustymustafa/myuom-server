@@ -74,7 +74,7 @@ class ForumController {
 
     try {
       const posts = await Schema.Post().find({level: level,
-                        department: dept}).sort({time: -1});
+                        department: dept}).sort({time: 'desc'});
 
         response.status(200).send({
           posts })
