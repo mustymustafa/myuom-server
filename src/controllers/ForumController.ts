@@ -69,13 +69,15 @@ class ForumController {
     //show posts
      static async getPosts(request: Request, response: Response){
 
-    const {pid, level, dept} = request.body;
+    const {uid, level, dept} = request.body;
     //console.log("level:" + level)
 
+              const user = await Schema.User().findOne({_id: uid});
 
-    try {
-      const posts = await Schema.Post().find({level: level,
-                        department: dept}).sort({time: -1});
+              if(user){
+  try {
+      const posts = await Schema.Post().find({level: user.level,
+                        department: user.department}).sort({time: -1});
 
         response.status(200).send({
           posts })
@@ -84,6 +86,10 @@ class ForumController {
         message: 'Something went wrong'
       })
     }
+              } else {
+                                 response.status(404).send({message: 'user not found'}) 
+              }
+  
   }
 
       //show user posts
