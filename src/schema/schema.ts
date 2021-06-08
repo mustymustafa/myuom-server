@@ -29,8 +29,10 @@ class Schema {
             user: {type: MongooseSchema.Types.ObjectId, ref: 'User'},
             createdAt: String,
             postedBy: String,
-            postedBypic: String,
-             time: Number
+            postedByPic: String,
+            time: Number,
+            level: String,
+            department: String
         })
         const Post = mongoose.models.Post || mongoose.model('Post', PostSchema)
         return Post;

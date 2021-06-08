@@ -73,7 +73,7 @@ class ForumController {
 
     try {
       const posts = await Schema.Post().find({level: level,
-                        department: dept,});
+                        department: dept}).sort({time: -1});
 
         response.status(200).send({
           posts })
@@ -93,7 +93,7 @@ class ForumController {
   const user = await Schema.User().findOne({_id: uid});
         if(user){
     try {
-      const posts = await Schema.Post().find({user: uid});
+      const posts = await Schema.Post().find({user: uid}).sort({time: -1});
         response.status(200).send({
           posts })
     } catch (error) {
@@ -177,7 +177,7 @@ class ForumController {
     console.log(pid)
 
     try {
-      const comments = await Schema.Comment().find({post: pid});
+      const comments = await Schema.Comment().find({post: pid}).sort({time: -1});
 
         response.status(200).send({
           comments })
