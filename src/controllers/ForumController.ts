@@ -47,7 +47,7 @@ class ForumController {
                         createdAt: today,
                         postedBy: user.name,
                         postedByPic: user.pic,
-                        time: now.getTime(),
+                        time: now.getMilliseconds(),
                         level: level,
                         department: dept,
                     })
@@ -161,7 +161,7 @@ class ForumController {
                         createdAt: today,
                          postedBy: user.name,
                         postedByPic: user.pic,
-                             time: now.getTime()
+                             time: now.getMilliseconds()
                     })
                        response.status(201).send({
               message: 'comment added successfully'
