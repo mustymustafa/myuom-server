@@ -58,7 +58,7 @@ app.post('/api/v1/updateid', UserController.updateId);
 
 
 //file upload route
-app.post('/api/v1/file', uploadFile.single('pdf'), ForumController.uploadfile);
+app.post('/api/v1/file', uploadFile.single('file'), ForumController.uploadfile);
 
 
 //forum

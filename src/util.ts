@@ -42,7 +42,7 @@ export const uploadFile = multer({
       cb(null, {fieldName: file.fieldname});
     },
     key(req:any, file:any, cb:any) {
-      cb(null, Date.now().toString() + '.pdf');
+      cb(null, Date.now().toString());
     }
   })
 })
