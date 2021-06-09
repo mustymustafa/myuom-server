@@ -118,7 +118,7 @@ class ForumController {
   //get post
       static async getPost(request: Request, response: Response){
 
-    const {pid} = request.body;
+    const {pid} = request.params;
     console.log(pid)
 
     try {
