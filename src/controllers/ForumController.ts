@@ -47,7 +47,7 @@ class ForumController {
                         createdAt: today,
                         postedBy: user.name,
                         postedByPic: user.pic,
-                        time: now.getMilliseconds(),
+                        time: now.getTime(),
                         level: level,
                         department: dept,
                     })
@@ -77,7 +77,7 @@ class ForumController {
               if(user){
   try {
       const posts = await Schema.Post().find({level: user.level,
-                        department: user.department}).sort({time: -1});
+                        department: user.department}).sort({_id: -1});
 
         response.status(200).send({
           posts })
@@ -101,7 +101,7 @@ class ForumController {
   const user = await Schema.User().findOne({_id: uid});
         if(user){
     try {
-      const posts = await Schema.Post().find({user: uid}).sort({time: -1});
+      const posts = await Schema.Post().find({user: uid}).sort({_id: -1});
         response.status(200).send({
           posts })
     } catch (error) {
@@ -161,7 +161,7 @@ class ForumController {
                         createdAt: today,
                          postedBy: user.name,
                         postedByPic: user.pic,
-                             time: now.getMilliseconds()
+                             time: now.getTime()
                     })
                        response.status(201).send({
               message: 'comment added successfully'
@@ -185,7 +185,7 @@ class ForumController {
     console.log(pid)
 
     try {
-      const comments = await Schema.Comment().find({post: pid}).sort({time: -1});
+      const comments = await Schema.Comment().find({post: pid}).sort({_id: -1});
 
         response.status(200).send({
           comments })
