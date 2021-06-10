@@ -126,6 +126,13 @@ var transporter = nodemailer.createTransport({
         if (foundUser && Object.keys(foundUser).length > 0) {
       console.log(foundUser);
       try {
+
+          if (level.length < 1 || department.length < 1 ) {
+
+        return response.status(409).send({
+          message: 'Level and department are required'
+        });
+      }
         await Schema.User().updateOne({
           _id: foundUser._id
         }, {
