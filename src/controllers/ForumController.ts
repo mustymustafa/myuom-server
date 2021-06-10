@@ -181,7 +181,7 @@ class ForumController {
         //show comments
      static async getComments(request: Request, response: Response){
 
-    const {pid} = request.body;
+    const {pid} = request.params;
     console.log(pid)
 
     try {
