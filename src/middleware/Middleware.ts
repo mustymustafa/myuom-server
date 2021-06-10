@@ -14,7 +14,7 @@ export default class MiddleWare {
 
 
     let errors: {[error: string]: string}[] = []
-    if (!email) {
+    if (!(/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(manchester)\.ac\.uk$/.test(email))) {
       errors = [...errors, {
         email: 'You have not entered an email'
       }]
@@ -66,7 +66,7 @@ export default class MiddleWare {
     password = password.trim();
 
     let errors: {[error: string]: string}[] = []
-    if (!email) {
+     if (!(/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(manchester)\.ac\.uk$/.test(email))) {
       errors = [...errors, {
         email: 'You have not entered an email'
       }]
