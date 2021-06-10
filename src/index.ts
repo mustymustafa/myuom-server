@@ -66,7 +66,7 @@ app.post('/api/v1/file', uploadFile.single('file'), ForumController.uploadfile);
 app.post('/api/v1/post', ForumController.makePost);
 app.post('/api/v1/posts', ForumController.getPosts);
 app.post('/api/v1/:uid/posts', ForumController.getMyPosts);
-app.post('/api/v1/:pid/post', ForumController.getPost);
+app.get('/api/v1/post/:pid', ForumController.getPost);
 app.post('/api/v1/comment', ForumController.addComment);
 app.post('/api/v1/:pid/comments', ForumController.getComments);
 app.post('/api/v1/:cid/like', ForumController.likeComment);
