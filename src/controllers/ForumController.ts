@@ -160,7 +160,7 @@ class ForumController {
                         pic: pic,
                         createdAt: today,
                          postedBy: user.name,
-                        postedByPic: user.pic,
+                        postedBypic: user.pic,
                              time: now.getTime()
                     })
                        response.status(201).send({
