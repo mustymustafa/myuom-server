@@ -223,7 +223,7 @@ class ForumController {
           likedBy: likedBy.push(user.name),
         }
       });
-      return response.status(200).send("like added");
+      return response.status(200).send({message: "like added"});
  
     } catch (error) {
       return response.status(500).send({
@@ -268,7 +268,7 @@ class ForumController {
         dislikedBy: dislikedBy.push(user.name)
         }
       });
-      return response.status(200).send("disliked");
+      return response.status(200).send({message: "disliked"});
  
     } catch (error) {
       return response.status(500).send({
