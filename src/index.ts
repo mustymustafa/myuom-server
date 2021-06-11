@@ -69,8 +69,8 @@ app.post('/api/v1/:uid/posts', ForumController.getMyPosts);
 app.get('/api/v1/post/:pid', ForumController.getPost);
 app.post('/api/v1/comment', ForumController.addComment);
 app.get('/api/v1/comments/:pid', ForumController.getComments);
-app.post('/api/v1/like/:cid', ForumController.likeComment);
-app.post('/api/v1/dislike/:cid', ForumController.dlikeComment);
+app.post('/api/v1/:cid/like', ForumController.likeComment);
+app.post('/api/v1/:cid/dislike', ForumController.dlikeComment);
 
 
 
