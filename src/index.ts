@@ -71,6 +71,8 @@ app.post('/api/v1/comment', ForumController.addComment);
 app.get('/api/v1/comments/:pid', ForumController.getComments);
 app.post('/api/v1/:cid/like', ForumController.likeComment);
 app.post('/api/v1/:cid/dislike', ForumController.dlikeComment);
+app.post('/api/v1/:pid/deletepost', ForumController.deletePost);
+app.post('/api/v1/:cid/deletecomment', ForumController.deleteComment);
 
 
 

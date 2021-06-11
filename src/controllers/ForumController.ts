@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Request, Response } from "express";
 
-import request from 'request';
+import request, { post } from 'request';
 
 import Schema from '../schema/schema';
 
@@ -186,9 +186,10 @@ class ForumController {
 
     try {
       const comments = await Schema.Comment().find({post: pid}).sort({_id: -1});
-
+        //find best anser
+        const best =  await Schema.Comment().findOne({post: pid}).sort({likes: -1});
         response.status(200).send({
-          comments })
+          comments, best })
     } catch (error) {
       return response.status(500).send({
         message: 'Something went wrong'
@@ -285,7 +286,68 @@ class ForumController {
 
         }
 
+//delete comment and post
 
+     static async deletePost(request: Request, response: Response){
+
+    const {pid, uid} = request.body;
+    
+      const user = await Schema.User().findOne({_id: uid});
+      const post = await Schema.Post().findOne({_id: pid});
+
+            if(user && post){
+    try {
+     await Schema.Post()
+        .deleteOne({
+          _id: pid,
+        });
+      return response.status(200).send({message: "post deleted"});
+ 
+    } catch (error) {
+      return response.status(500).send({
+        message: 'Something went wrong'
+      })
+    }
+  } else {
+                response.status(404).send({message: 'user or post not found'})
+            }
+
+
+
+
+
+        }
+
+     static async deleteComment(request: Request, response: Response){
+
+    const {cid, pid, uid} = request.body;
+    
+      const user = await Schema.User().findOne({_id: uid});
+      const post = await Schema.Post().findOne({_id: pid});
+      const comment = await Schema.Comment().findOne({_id: cid});
+
+            if(user && post && comment){
+    try {
+     await Schema.Comment()
+        .deleteOne({
+          _id: cid,
+        });
+      return response.status(200).send({message: "comment deleted"});
+ 
+    } catch (error) {
+      return response.status(500).send({
+        message: 'Something went wrong'
+      })
+    }
+  } else {
+                response.status(404).send({message: 'user or post not found'})
+            }
+
+
+
+
+
+        }
 
 
 //upload file
