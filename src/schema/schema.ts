@@ -50,8 +50,8 @@ class Schema {
             createdAt: String,
             postedBy: String,
             postedBypic: String,
-            likedBy: String,
-            dislikedBy: String,
+            likedBy: [String],
+            dislikedBy: [String],
             time: Number
         })
         const Comment = mongoose.models.Comment || mongoose.model('Comment', CommentSchema)
