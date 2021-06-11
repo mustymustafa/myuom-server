@@ -202,6 +202,8 @@ class ForumController {
     const {cid, uid} = request.body;
     
       const user = await Schema.User().findOne({_id: uid});
+      const comments = await Schema.Comment().findOne({_id: cid});
+      const likedBy = comments.likedBy
             if(user){
     try {
      await Schema.Comment()
@@ -218,7 +220,7 @@ class ForumController {
           _id: cid,
         }, {
         $set: {
-          likedBy: user.name,
+          likedBy: likedBy.push(user.name),
         }
       });
       return response.status(200).send("like added");
@@ -245,6 +247,8 @@ class ForumController {
     const {cid, uid} = request.body;
     
       const user = await Schema.User().findOne({_id: uid});
+        const comments = await Schema.Comment().findOne({_id: cid});
+      const dislikedBy = comments.likedBy
             if(user){
     try {
      await Schema.Comment()
@@ -261,7 +265,7 @@ class ForumController {
           _id: cid,
         }, {
         $set: {
-          dislikedBy: user.name,
+        dislikedBy: dislikedBy.push(user.name)
         }
       });
       return response.status(200).send("disliked");
