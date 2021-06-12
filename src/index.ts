@@ -65,7 +65,6 @@ app.post('/api/v1/file', uploadFile.single('file'), ForumController.uploadfile);
 //post a question
 app.post('/api/v1/post', ForumController.makePost);
 app.post('/api/v1/posts', ForumController.getPosts);
-app.post('/api/v1/:uid/posts', ForumController.getMyPosts);
 app.get('/api/v1/post/:pid', ForumController.getPost);
 app.post('/api/v1/comment', ForumController.addComment);
 app.get('/api/v1/comments/:pid', ForumController.getComments);
@@ -73,7 +72,7 @@ app.post('/api/v1/:cid/like', ForumController.likeComment);
 app.post('/api/v1/:cid/dislike', ForumController.dlikeComment);
 app.post('/api/v1/:pid/deletepost', ForumController.deletePost);
 app.post('/api/v1/:cid/deletecomment', ForumController.deleteComment);
-
+app.get('/api/v1/activity/:uid', ForumController.getMyPosts);
 
 
 
