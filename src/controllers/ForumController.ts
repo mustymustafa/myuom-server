@@ -95,7 +95,7 @@ class ForumController {
       //show user posts
      static async getMyPosts(request: Request, response: Response){
 
-    const {uid} = request.body;
+    const {uid} = request.params;
     console.log(uid)
 
   const user = await Schema.User().findOne({_id: uid});
@@ -359,7 +359,8 @@ class ForumController {
     res.json(req.file)
   }
 
-        
+
+
 
 }
 
