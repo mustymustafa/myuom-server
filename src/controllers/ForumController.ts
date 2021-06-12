@@ -205,6 +205,9 @@ class ForumController {
       const user = await Schema.User().findOne({_id: uid});
       const comments = await Schema.Comment().findOne({_id: cid});
       const likedBy = comments.likedBy
+      const addLike = likedBy.push(user.name)
+      console.log(likedBy)
+      console.log(addLike)
             if(user){
     try {
      await Schema.Comment()
