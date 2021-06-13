@@ -19,7 +19,8 @@ import seedUser from './schema/seed';
 import Middleware from './middleware/Middleware'
 import UserController from './controllers/UserController'
 import ForumController from './controllers/ForumController'
-
+import GuideController from './controllers/CampusController';
+import CampusController from './controllers/CampusController';
 //database 
  mongoose.connect(
     `mongodb+srv://mustymustafa:${process.env.DB_PASSWORD}@cluster0.qx3pi.mongodb.net/myuom?retryWrites=true&w=majority`,
@@ -75,6 +76,10 @@ app.post('/api/v1/:cid/deletecomment', ForumController.deleteComment);
 app.get('/api/v1/activity/:uid', ForumController.getMyPosts);
 
 
+//campus guide
+app.post('/api/v1/location', CampusController.addLocation);
+app.get('/api/v1/locations', CampusController.getLocations);
+app.post('/api/v1/getlocation', CampusController.getLocation);
 
 
 

@@ -58,6 +58,18 @@ class Schema {
         return Comment;
     }
 
+
+       static Guide() {
+        const GuideSchema = new mongoose.Schema({
+          location: String,
+          pic: String,
+          name: String,
+          category: String
+        })
+        const Guide = mongoose.models.Guide || mongoose.model('Guide', GuideSchema)
+        return Guide;
+    }
+
 }
 
 export default Schema;
