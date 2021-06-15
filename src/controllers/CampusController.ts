@@ -41,7 +41,8 @@ class CampusController {
                     await Schema.Post().create({
                        name: name,
                        pic: pic,
-                       location: location
+                       location: location,
+                       category: category
                     })
                        response.status(201).send({
               message: 'Location added successfully'
