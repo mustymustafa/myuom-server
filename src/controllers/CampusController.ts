@@ -63,7 +63,7 @@ class CampusController {
      static async getLocations(request:Request, response: Response){
                 try{
                         
-              const locations = await Schema.Guide().find({});
+              const locations = await Schema.Guide().find();
                        response.status(201).send({
                            locations
                      });
