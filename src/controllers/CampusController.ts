@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Request, Response } from "express";
 
-import request, { post } from 'request';
+
 
 import Schema from '../schema/schema';
 
@@ -38,7 +38,7 @@ class CampusController {
               const loc = await Schema.Guide().findOne({name: name});
             if(!loc){
                 try{
-                    await Schema.Post().create({
+                    await Schema.Guide().create({
                        name: name,
                        pic: pic,
                        location: location,
