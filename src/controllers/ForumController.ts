@@ -55,6 +55,34 @@ class ForumController {
               message: 'Post added successfully'
                      });
 
+                     //send notification
+                       const get_users = await Schema.User().find({department:dept, level: level }).where({pushToken: {$exists: true}})
+                      console.log("users:" + get_users)
+
+  get_users.map(users => {
+ 
+    console.log("tokens:" + users.pushToken)
+    let chunks = expo.chunkPushNotifications([{
+      "to": [users.pushToken],
+      "sound": "default",
+      "title": "New Post added",
+      "body": "A new post was added to the forum"
+    }]);
+    let tickets = [];
+    (async () => {
+      for (let chunk of chunks) {
+        try {
+          let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+          console.log(ticketChunk);
+          tickets.push(...ticketChunk);
+       
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    })();
+    })
+
                 } catch (error){
                       return response.status(500).send({
                     message: 'Something went wrong'
@@ -62,7 +90,7 @@ class ForumController {
                 }
 
             } else {
-                response.status(404).send({message: 'user not found'})
+                return response.status(404).send({message: 'user not found'})
             }
     }
 
@@ -159,13 +187,35 @@ class ForumController {
                         file: file,
                         pic: pic,
                         createdAt: today,
-                         postedBy: user.name,
+                        postedBy: user.name,
                         postedBypic: user.pic,
-                             time: now.getTime()
+                        time: now.getTime()
                     })
                        response.status(201).send({
               message: 'comment added successfully'
                      });
+
+      const findUser = await Schema.User().findOne({_id: post.user});
+
+      let chunks = expo.chunkPushNotifications([{
+      "to": findUser.pushToken,
+      "sound": "default",
+      "title": "New Comment added",
+      "body": "A new comment was added to your post"
+    }]);
+    let tickets = [];
+    (async () => {
+      for (let chunk of chunks) {
+        try {
+          let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+          console.log(ticketChunk);
+          tickets.push(...ticketChunk);
+       
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    })();
 
                 } catch (error){
                       return response.status(500).send({
