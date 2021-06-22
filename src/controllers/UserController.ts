@@ -473,7 +473,8 @@ var transporter = nodemailer.createTransport({
     const {uid} = request.params;
     const token = request.body.token
 
-    console.log(token)
+    console.log("token" + token)
+      console.log("uid" + uid)
 
     //check token
     if(!Expo.isExpoPushToken(token)){
