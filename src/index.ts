@@ -32,6 +32,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors());
 
 
 
@@ -88,10 +89,18 @@ app.post('/api/v1/getlocation', CampusController.getLocation);
 //seedUser();
 
 //server
+function server(){
 const port = process.env.PORT && parseInt(process.env.PORT, 10) || 8080;
 app.set('port', port);
 
 const server = http.createServer(app);
 server.listen(port, ()=> {
     console.log("server running on ....." + port)
+    return 'server running on .....8080';
 });
+
+
+}
+
+export default server();
+

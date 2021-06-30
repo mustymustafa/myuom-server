@@ -12,7 +12,7 @@ class MiddleWare {
         password = password.trim();
         fullname = fullname.trim();
         let errors = [];
-        if (!email) {
+        if (!(/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(manchester)\.ac\.uk$/.test(email))) {
             errors = [...errors, {
                     email: 'You have not entered an email'
                 }];
@@ -46,7 +46,7 @@ class MiddleWare {
         email = email.trim();
         password = password.trim();
         let errors = [];
-        if (!email) {
+        if (!(/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(manchester)\.ac\.uk$/.test(email))) {
             errors = [...errors, {
                     email: 'You have not entered an email'
                 }];
