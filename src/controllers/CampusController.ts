@@ -96,6 +96,45 @@ class CampusController {
             
     }
 
+
+    //update location
+     static async updateLocation(request:Request, response: Response){
+        const {id, name} = request.body        
+        try{
+                        
+              const location = await Schema.Guide().find({_id: id});
+                    if(location){
+
+                      await Schema.Guide().updateOne({
+                        _id: id
+                      }, 
+                      {
+                        $set: {
+                          name: name
+                        }
+                      }
+                      )
+                         response.status(201).send({
+                           message: 'updated'
+                     });
+                    } else {
+                                      return response.status(500).send({
+                    message: 'Something went wrong'
+      })
+                    }
+                    
+
+                } catch (error){
+                      return response.status(500).send({
+                    message: 'Something went wrong'
+      })
+                }
+
+            
+    }
+
+
+
 }
 
 export default CampusController;

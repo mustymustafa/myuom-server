@@ -82,6 +82,7 @@ app.post('/api/v1/location', CampusController.addLocation);
 app.get('/api/v1/locations', CampusController.getLocations);
 app.post('/api/v1/getlocation', CampusController.getLocation);
 
+app.post('/api/v1/location/update', CampusController.updateLocation);
 
 
 
