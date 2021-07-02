@@ -99,14 +99,14 @@ class CampusController {
 
     //update location
      static async updateLocation(request:Request, response: Response){
-        const {id, name} = request.body        
+        const {name} = request.body        
         try{
                         
-              const location = await Schema.Guide().find({_id: id});
+              const location = await Schema.Guide().find({name: name});
                     if(location){
 
                       await Schema.Guide().updateOne({
-                        _id: id
+                        name: name
                       }, 
                       {
                         $set: {
