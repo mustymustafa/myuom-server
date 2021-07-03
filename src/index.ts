@@ -1,11 +1,11 @@
 if (process.env.NODE_ENV !== 'production') { require('dotenv').config() }
-import express, { Request, Response }from 'express';
+import express, { Request, Response } from 'express';
 import bodyParser from "body-parser";
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import http from 'http';
-import request from 'request'
+
 
 import cron from 'node-cron';
 import { Expo } from "expo-server-sdk";
@@ -19,7 +19,7 @@ import seedUser from './schema/seed';
 import Middleware from './middleware/Middleware'
 import UserController from './controllers/UserController'
 import ForumController from './controllers/ForumController'
-import GuideController from './controllers/CampusController';
+
 import CampusController from './controllers/CampusController';
 //database 
  mongoose.connect(
@@ -37,8 +37,6 @@ app.use(cors());
 
 
 //routes
-
-
 app.post('/api/v1/signup', Middleware.SignupMiddleware, UserController.signup);
 
 app.post('/api/v1/set-profile', UserController.setProfile);
@@ -94,7 +92,7 @@ app.post('/api/v1/location/update', CampusController.updateLocation);
 
 //server
 
-function server(){
+
 const port = process.env.PORT && parseInt(process.env.PORT, 10) || 8080;
 app.set('port', port);
 
@@ -103,7 +101,7 @@ server.listen(port, ()=> {
     console.log("server running on ....." + port)
     return 'server running on .....8080';
 });
-}
-server()
+
+
 
 //module.exports = app;
