@@ -1,5 +1,5 @@
 
-import app from '../src/index';
+import app from '../src/testServer';
 import request from 'supertest'
 import Middleware from '../src/middleware/Middleware'
 
@@ -19,7 +19,8 @@ describe('Test Authentication', () => {
                 email: 'musty@postgrad.manchester.ac.uk',
                 password: 'musty100'
             })
-
+            
+           
             expect(response.statusCode).toBe(200)
         })
 
@@ -31,7 +32,6 @@ describe('Test Authentication', () => {
                 password: 'musty100'
             })
 
-            
             //expect(response.headers['content-type']).toEqual(expect.stringContaining("application/json"))
 
             expect(JSON.parse(response.text).hasOwnProperty('token')).toBe(true)
