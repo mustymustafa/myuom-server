@@ -29,7 +29,7 @@ var transporter = nodemailer.createTransport({
 class UserController {
   //signup function
 
-  /** 
+  
   static async signup(request: Request, response: Response) {
     const { fullname, email, password, cpassword } = request.body;
 
@@ -78,7 +78,7 @@ class UserController {
     }
   }
 
-  */
+  
 
   //sign in
   static async signin(request: Request, response: Response) {
