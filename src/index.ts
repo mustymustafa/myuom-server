@@ -9,7 +9,7 @@ import request from 'request'
 
 import cron from 'node-cron';
 import { Expo } from "expo-server-sdk";
-import {upload, uploadFile} from './util'
+//import {upload, uploadFile} from './util'
 const expo = new Expo();
 
 import seedUser from './schema/seed';
@@ -36,9 +36,12 @@ app.use(cors());
 
 
 
-
 //routes
+
+/** 
 app.post('/api/v1/signup', Middleware.SignupMiddleware, UserController.signup);
+*/
+
 app.post('/api/v1/set-profile', UserController.setProfile);
 app.post('/api/v1/update-profile', UserController.updateUser);
 app.post('/api/v1/signin', Middleware.signinMiddleware, UserController.signin);
@@ -53,7 +56,8 @@ app.post('/api/v1/forgot-password', UserController.forgotPassword);
 app.post('/api/v1/change-password', UserController.changePassword);
 
 //image upload route
-app.post('/api/v1/image', upload.single('image'), UserController.uploadimage);
+/**app.post('/api/v1/image', upload.single('image'), UserController.uploadimage);
+
 //set images
 app.post('/api/v1/setid', UserController.setId);
 app.post('/api/v1/updateid', UserController.updateId);
@@ -61,7 +65,7 @@ app.post('/api/v1/updateid', UserController.updateId);
 
 //file upload route
 app.post('/api/v1/file', uploadFile.single('file'), ForumController.uploadfile);
-
+*/
 
 //forum
 //post a question
@@ -90,6 +94,7 @@ app.post('/api/v1/location/update', CampusController.updateLocation);
 //seedUser();
 
 //server
+
 function server(){
 const port = process.env.PORT && parseInt(process.env.PORT, 10) || 8080;
 app.set('port', port);
@@ -99,9 +104,7 @@ server.listen(port, ()=> {
     console.log("server running on ....." + port)
     return 'server running on .....8080';
 });
-
-
 }
+//server()
 
-export default server();
-
+module.exports = app;

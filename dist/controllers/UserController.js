@@ -23,57 +23,66 @@ const now = new Date();
 const month = now.getMonth() + 1;
 const day = now.getDate();
 const year = now.getFullYear();
-const today = month + '/' + day + '/' + year;
+const today = month + "/" + day + "/" + year;
 var transporter = nodemailer_1.default.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
-        user: 'musty.mohammed1998@gmail.com',
-        pass: process.env.PASS
-    }
+        user: "musty.mohammed1998@gmail.com",
+        pass: process.env.PASS,
+    },
 });
 class UserController {
     //signup function
-    static signup(request, response) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { fullname, email, password, cpassword } = request.body;
-            console.log(request.body);
-            try {
-                const foundEmail = yield schema_1.default.User().find({ email: email.trim() });
-                if (foundEmail && foundEmail.length > 0) {
-                    console.log(foundEmail[0]);
-                    return response.status(409).send({
-                        message: 'This email already exists',
-                        isConfirmed: foundEmail[0].isConfirmed
-                    });
-                }
-                if (cpassword.trim() !== password.trim()) {
-                    return response.status(409).send({
-                        message: 'The Password do not match'
-                    });
-                }
-                const confirmationCode = String(Date.now()).slice(9, 13);
-                const message = `Verification code: ${confirmationCode}`;
-                UserController.sendMail(email.trim(), message, 'User Verification code');
-                yield schema_1.default.User().create({
-                    name: fullname.trim(),
-                    email: email.trim(),
-                    password: bcrypt_1.default.hashSync(password.trim(), UserController.generateSalt()),
-                    confirmationCode,
-                    isConfirmed: false
-                });
-                response.status(201).send({
-                    message: 'User created successfully',
-                    status: 201
-                });
-            }
-            catch (error) {
-                console.log(error.toString());
-                response.status(500).send({
-                    message: "Somenthing went wrong"
-                });
-            }
+    /**
+    static async signup(request: Request, response: Response) {
+      const { fullname, email, password, cpassword } = request.body;
+  
+      console.log(request.body);
+  
+      try {
+        const foundEmail = await Schema.User().find({ email: email.trim() });
+        if (foundEmail && foundEmail.length > 0) {
+          console.log(foundEmail[0]);
+          return response.status(409).send({
+            message: "This email already exists",
+            isConfirmed: foundEmail[0].isConfirmed,
+          });
+        }
+  
+        if (cpassword.trim() !== password.trim()) {
+          return response.status(409).send({
+            message: "The Password do not match",
+          });
+        }
+  
+        const confirmationCode = String(Date.now()).slice(9, 13);
+        const message = `Verification code: ${confirmationCode}`;
+        UserController.sendMail(email.trim(), message, "User Verification code");
+  
+        await Schema.User().create({
+          name: fullname.trim(),
+          email: email.trim(),
+          password: bcrypt.hashSync(
+            password.trim(),
+            UserController.generateSalt()
+          ),
+          confirmationCode,
+          isConfirmed: false,
         });
+  
+        response.status(201).send({
+          message: "User created successfully",
+          status: 201,
+        });
+      } catch (error) {
+        console.log(error.toString());
+        response.status(500).send({
+          message: "Somenthing went wrong",
+        });
+      }
     }
+  
+    */
     //sign in
     static signin(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -83,16 +92,16 @@ class UserController {
             if (foundUser && Object.keys(foundUser).length > 0) {
                 if (!bcrypt_1.default.compareSync(password, foundUser.password)) {
                     return response.status(403).send({
-                        message: 'Incorrect Password'
+                        message: "Incorrect Password",
                     });
                 }
                 return response.status(200).send({
-                    token: UserController.generateToken(foundUser)
+                    token: UserController.generateToken(foundUser),
                 });
             }
             else {
                 return response.status(401).send({
-                    message: 'Incorrect Username or Password'
+                    message: "Incorrect Username or Password",
                 });
             }
         });
@@ -108,26 +117,26 @@ class UserController {
                 try {
                     if (level.length < 1 || department.length < 1) {
                         return response.status(409).send({
-                            message: 'Level and department are required'
+                            message: "Level and department are required",
                         });
                     }
                     yield schema_1.default.User().updateOne({
-                        _id: foundUser._id
+                        _id: foundUser._id,
                     }, {
                         $set: {
                             level: level,
-                            department: department
-                        }
+                            department: department,
+                        },
                     });
                     return response.status(200).send({
-                        message: 'User updated successfully',
-                        status: 201
+                        message: "User updated successfully",
+                        status: 201,
                     });
                 }
                 catch (error) {
                     console.log(error.toString());
                     response.status(500).send({
-                        message: 'something went wrong'
+                        message: "something went wrong",
                     });
                 }
             }
@@ -143,22 +152,22 @@ class UserController {
                 console.log(foundUser);
                 try {
                     yield schema_1.default.User().updateOne({
-                        _id: uid
+                        _id: uid,
                     }, {
                         $set: {
                             department: department,
-                            level: level
-                        }
+                            level: level,
+                        },
                     });
                     return response.status(200).send({
-                        message: 'User updated successfully',
-                        status: 201
+                        message: "User updated successfully",
+                        status: 201,
                     });
                 }
                 catch (error) {
                     console.log(error.toString());
                     response.status(500).send({
-                        message: 'something went wrong'
+                        message: "something went wrong",
                     });
                 }
             }
@@ -173,7 +182,7 @@ class UserController {
             if (foundUser && Object.keys(foundUser).length > 0) {
                 if (foundUser.confirmationCode !== confirmationCode) {
                     return response.status(403).send({
-                        message: 'Incorrect confirmation code'
+                        message: "Incorrect confirmation code",
                     });
                 }
                 try {
@@ -181,28 +190,28 @@ class UserController {
                     const createdAt = dt.toLocaleDateString();
                     console.log(createdAt);
                     yield schema_1.default.User().updateOne({
-                        _id: foundUser._id
+                        _id: foundUser._id,
                     }, {
                         $set: {
                             isConfirmed: true,
-                            createdAt: createdAt
-                        }
+                            createdAt: createdAt,
+                        },
                     });
                     foundUser.isConfirmed = true;
                     return response.status(200).send({
-                        token: UserController.generateToken(foundUser)
+                        token: UserController.generateToken(foundUser),
                     });
                 }
                 catch (error) {
                     console.log(error.toString());
                     response.status(500).send({
-                        message: 'something went wrong'
+                        message: "something went wrong",
                     });
                 }
             }
             else {
                 return response.status(401).send({
-                    message: 'Incorrect Username or Password'
+                    message: "Incorrect Username or Password",
                 });
             }
         });
@@ -214,25 +223,24 @@ class UserController {
             console.log(email);
             const confirmationCode = String(Date.now()).slice(9, 13);
             try {
-                yield schema_1.default.User()
-                    .updateOne({
+                yield schema_1.default.User().updateOne({
                     email,
                 }, {
                     $set: {
-                        confirmationCode
-                    }
+                        confirmationCode,
+                    },
                 });
                 const message = `Token: ${confirmationCode}`;
-                UserController.sendMail(email, message, 'Confirmation Code');
+                UserController.sendMail(email, message, "Confirmation Code");
                 response.status(200).send({
-                    message: 'Please check your mailbox for token'
+                    message: "Please check your mailbox for token",
                 });
                 return;
             }
             catch (error) {
                 console.log(error.toString(), "========");
                 return response.status(500).send({
-                    message: 'Something went wrong'
+                    message: "Something went wrong",
                 });
             }
         });
@@ -244,29 +252,28 @@ class UserController {
             const user = yield schema_1.default.User().findOne({ email: email.trim() });
             if (!user) {
                 return response.status(404).send({
-                    message: 'User does not exist'
+                    message: "User does not exist",
                 });
             }
             const confirmationCode = String(Date.now()).slice(9, 13);
             try {
-                yield schema_1.default.User()
-                    .updateOne({
+                yield schema_1.default.User().updateOne({
                     _id: user._id,
                 }, {
                     $set: {
-                        confirmationCode
-                    }
+                        confirmationCode,
+                    },
                 });
                 const message = `Token: ${confirmationCode}`;
-                UserController.sendMail(user.email, message, 'Password change');
+                UserController.sendMail(user.email, message, "Password change");
                 return response.status(200).send({
-                    message: 'Please check your email for token'
+                    message: "Please check your email for token",
                 });
             }
             catch (error) {
                 console.log(error.toString(), "========");
                 return response.status(500).send({
-                    message: 'Something went wrong'
+                    message: "Something went wrong",
                 });
             }
         });
@@ -277,50 +284,49 @@ class UserController {
             const { confirmationCode, password, email } = request.body;
             if (!confirmationCode || !confirmationCode.trim()) {
                 return response.status(400).send({
-                    message: "Token is required"
+                    message: "Token is required",
                 });
             }
             if (!password || !password.trim()) {
                 return response.status(400).send({
-                    message: "Password is required"
+                    message: "Password is required",
                 });
             }
             const user = yield schema_1.default.User().findOne({ email: email.trim() });
             if (!user) {
                 return response.status(404).send({
-                    message: 'User does not exist'
+                    message: "User does not exist",
                 });
             }
             if (user.confirmationCode !== confirmationCode) {
                 return response.status(403).send({
-                    message: "Incorrect token code"
+                    message: "Incorrect token code",
                 });
             }
             try {
-                yield schema_1.default.User()
-                    .updateOne({
+                yield schema_1.default.User().updateOne({
                     _id: user._id,
                 }, {
                     $set: {
                         password: bcrypt_1.default.hashSync(password.trim(), UserController.generateSalt()),
-                    }
+                    },
                 });
                 return response.status(200).send({
-                    token: UserController.generateToken(user)
+                    token: UserController.generateToken(user),
                 });
             }
             catch (error) {
                 console.log(error.toString(), "========");
                 return response.status(500).send({
-                    message: 'Something went wrong'
+                    message: "Something went wrong",
                 });
             }
         });
     }
     //upload images
     static uploadimage(req, res) {
-        console.log(req.file.originalname.split(' '));
-        const parts = req.file.originalname.split(' ');
+        console.log(req.file.originalname.split(" "));
+        const parts = req.file.originalname.split(" ");
         const find = parts[0];
         console.log(find);
         res.json(req.file);
@@ -337,11 +343,11 @@ class UserController {
                 if (foundUser && Object.keys(foundUser).length > 0) {
                     console.log(foundUser);
                     yield schema_1.default.User().updateOne({
-                        _id: foundUser._id
+                        _id: foundUser._id,
                     }, {
                         $set: {
-                            pic: image
-                        }
+                            pic: image,
+                        },
                     });
                     return res.status(200).send("image set");
                 }
@@ -349,7 +355,7 @@ class UserController {
             catch (error) {
                 console.log(error.toString());
                 res.status(500).send({
-                    message: 'something went wrong'
+                    message: "something went wrong",
                 });
             }
         });
@@ -365,11 +371,11 @@ class UserController {
                 if (foundUser && Object.keys(foundUser).length > 0) {
                     console.log(foundUser);
                     yield schema_1.default.User().updateOne({
-                        _id: uid
+                        _id: uid,
                     }, {
                         $set: {
-                            pic: image
-                        }
+                            pic: image,
+                        },
                     });
                     return res.status(200).send("profile picture updated");
                 }
@@ -377,7 +383,7 @@ class UserController {
             catch (error) {
                 console.log(error.toString());
                 res.status(500).send({
-                    message: 'something went wrong'
+                    message: "something went wrong",
                 });
             }
         });
@@ -387,12 +393,13 @@ class UserController {
     }
     //generate token
     static generateToken(user) {
-        return process.env.SECRET && jsonwebtoken_1.default.sign({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isConfirmed: user.isConfirmed
-        }, process.env.SECRET, { expiresIn: 100 * 60 * 60 });
+        return (process.env.SECRET &&
+            jsonwebtoken_1.default.sign({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isConfirmed: user.isConfirmed,
+            }, process.env.SECRET, { expiresIn: 100 * 60 * 60 }));
     }
     static savePushToken(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -404,36 +411,35 @@ class UserController {
             if (!expo_server_sdk_1.Expo.isExpoPushToken(token)) {
                 console.log("invalid token");
                 return response.status(404).send({
-                    message: "invalid token"
+                    message: "invalid token",
                 });
             }
             try {
                 const user = yield schema_1.default.User().findOne({ _id: uid });
                 if (!user) {
                     return response.status(404).send({
-                        message: 'User does not exist'
+                        message: "User does not exist",
                     });
                 }
                 if (user.pushToken === token) {
                     console.log("token exists already");
                     return response.status(404).send({
-                        message: 'token exists already'
+                        message: "token exists already",
                     });
                 }
-                yield schema_1.default.User()
-                    .updateOne({
+                yield schema_1.default.User().updateOne({
                     _id: user._id,
                 }, {
                     $set: {
                         pushToken: token,
-                    }
+                    },
                 });
                 return response.status(200).send("token saved");
             }
             catch (error) {
                 console.log(error.toString(), "========");
                 return response.status(500).send({
-                    message: 'Something went wrong'
+                    message: "Something went wrong",
                 });
             }
         });
@@ -448,20 +454,20 @@ class UserController {
                 console.log(user);
                 if (user && Object.keys(user).length) {
                     response.status(200).send({
-                        user
+                        user,
                     });
                     console.log(user);
                 }
                 else {
                     response.status(404).send({
-                        message: 'Cannot find details for this user'
+                        message: "Cannot find details for this user",
                     });
                     console.log("not found");
                 }
             }
             catch (error) {
                 return response.status(500).send({
-                    message: 'Something went wrong'
+                    message: "Something went wrong",
                 });
             }
         });
@@ -472,16 +478,16 @@ class UserController {
         try {
             const msg = {
                 to: email,
-                from: 'My UOM App',
+                from: "My UOM App",
                 subject,
-                html: `<p> ${message}</p>`
+                html: `<p> ${message}</p>`,
             };
             transporter.sendMail(msg, function (error, info) {
                 if (error) {
                     console.log(error);
                 }
                 else {
-                    console.log('Email sent: ' + info);
+                    console.log("Email sent: " + info);
                 }
             });
         }
