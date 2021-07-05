@@ -22,8 +22,19 @@ describe('Test Forum operations', () => {
     
 })
 
-describe('Forui', () => {
+describe('Test adding a comment to a post', () => {
 
+      test('Should respond with Comment added successfully', async () => {
+        const response = await request(app).post('/api/v1/comment').send({
+        uid: '60c1d5d5a1527900154fec88',
+        pid: '60e0f1ac54c533261adf2001',
+        comment: 'unit test comment',
+    })
+
+    expect(response.statusCode).toBe(201)
+    expect(JSON.parse(response.text).message).toBe('comment added successfully')
+
+    })
     
 })
 
