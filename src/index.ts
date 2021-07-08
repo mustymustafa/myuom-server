@@ -36,6 +36,7 @@ app.use(cors());
 
 
 
+
 //routes
 app.post('/api/v1/signup', Middleware.SignupMiddleware, UserController.signup);
 
@@ -86,6 +87,9 @@ app.post('/api/v1/getlocation', CampusController.getLocation);
 app.post('/api/v1/location/update', CampusController.updateLocation);
 
 
+app.get('/test', (req:Request, res:Response) => {
+  res.send('working change')
+});
 
 
 //seedUser();

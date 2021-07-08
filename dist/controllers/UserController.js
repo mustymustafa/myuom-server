@@ -33,56 +33,47 @@ var transporter = nodemailer_1.default.createTransport({
 });
 class UserController {
     //signup function
-    /**
-    static async signup(request: Request, response: Response) {
-      const { fullname, email, password, cpassword } = request.body;
-  
-      console.log(request.body);
-  
-      try {
-        const foundEmail = await Schema.User().find({ email: email.trim() });
-        if (foundEmail && foundEmail.length > 0) {
-          console.log(foundEmail[0]);
-          return response.status(409).send({
-            message: "This email already exists",
-            isConfirmed: foundEmail[0].isConfirmed,
-          });
-        }
-  
-        if (cpassword.trim() !== password.trim()) {
-          return response.status(409).send({
-            message: "The Password do not match",
-          });
-        }
-  
-        const confirmationCode = String(Date.now()).slice(9, 13);
-        const message = `Verification code: ${confirmationCode}`;
-        UserController.sendMail(email.trim(), message, "User Verification code");
-  
-        await Schema.User().create({
-          name: fullname.trim(),
-          email: email.trim(),
-          password: bcrypt.hashSync(
-            password.trim(),
-            UserController.generateSalt()
-          ),
-          confirmationCode,
-          isConfirmed: false,
+    static signup(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { fullname, email, password, cpassword } = request.body;
+            console.log(request.body);
+            try {
+                const foundEmail = yield schema_1.default.User().find({ email: email.trim() });
+                if (foundEmail && foundEmail.length > 0) {
+                    console.log(foundEmail[0]);
+                    return response.status(409).send({
+                        message: "This email already exists",
+                        isConfirmed: foundEmail[0].isConfirmed,
+                    });
+                }
+                if (cpassword.trim() !== password.trim()) {
+                    return response.status(409).send({
+                        message: "The Password do not match",
+                    });
+                }
+                const confirmationCode = String(Date.now()).slice(9, 13);
+                const message = `Verification code: ${confirmationCode}`;
+                UserController.sendMail(email.trim(), message, "User Verification code");
+                yield schema_1.default.User().create({
+                    name: fullname.trim(),
+                    email: email.trim(),
+                    password: bcrypt_1.default.hashSync(password.trim(), UserController.generateSalt()),
+                    confirmationCode,
+                    isConfirmed: false,
+                });
+                response.status(201).send({
+                    message: "User created successfully",
+                    status: 201,
+                });
+            }
+            catch (error) {
+                console.log(error.toString());
+                response.status(500).send({
+                    message: "Somenthing went wrong",
+                });
+            }
         });
-  
-        response.status(201).send({
-          message: "User created successfully",
-          status: 201,
-        });
-      } catch (error) {
-        console.log(error.toString());
-        response.status(500).send({
-          message: "Somenthing went wrong",
-        });
-      }
     }
-  
-    */
     //sign in
     static signin(request, response) {
         return __awaiter(this, void 0, void 0, function* () {

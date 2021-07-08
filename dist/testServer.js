@@ -10,9 +10,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const http_1 = __importDefault(require("http"));
 const expo_server_sdk_1 = require("expo-server-sdk");
-const util_1 = require("./util");
 const expo = new expo_server_sdk_1.Expo();
 //import Schema from '../schema/schema';
 const Middleware_1 = __importDefault(require("./middleware/Middleware"));
@@ -28,7 +26,6 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use(cookie_parser_1.default());
 app.use(cors_1.default());
 //routes
-app.post('/api/v1/signup', Middleware_1.default.SignupMiddleware, UserController_1.default.signup);
 app.post('/api/v1/set-profile', UserController_1.default.setProfile);
 app.post('/api/v1/update-profile', UserController_1.default.updateUser);
 app.post('/api/v1/signin', Middleware_1.default.signinMiddleware, UserController_1.default.signin);
@@ -40,13 +37,6 @@ app.post('/api/v1/confirmation', UserController_1.default.confirm);
 app.post('/api/v1/resend-otp', UserController_1.default.resendOtp);
 app.post('/api/v1/forgot-password', UserController_1.default.forgotPassword);
 app.post('/api/v1/change-password', UserController_1.default.changePassword);
-//image upload route
-app.post('/api/v1/image', util_1.upload.single('image'), UserController_1.default.uploadimage);
-//set images
-app.post('/api/v1/setid', UserController_1.default.setId);
-app.post('/api/v1/updateid', UserController_1.default.updateId);
-//file upload route
-app.post('/api/v1/file', util_1.uploadFile.single('file'), ForumController_1.default.uploadfile);
 //forum
 //post a question
 app.post('/api/v1/post', ForumController_1.default.makePost);
@@ -66,11 +56,4 @@ app.post('/api/v1/getlocation', CampusController_1.default.getLocation);
 app.post('/api/v1/location/update', CampusController_1.default.updateLocation);
 //seedUser();
 //server
-const port = process.env.PORT && parseInt(process.env.PORT, 10) || 8080;
-app.set('port', port);
-const server = http_1.default.createServer(app);
-server.listen(port, () => {
-    console.log("server running on ....." + port);
-    return 'server running on .....8080';
-});
-//module.exports = app;
+module.exports = app;
