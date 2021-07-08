@@ -1,17 +1,21 @@
+# install base image
 FROM node:14.17.0
 
-FROM yarn:1.22.10
+# create root application folder
+WORKDIR /usr/app
 
-RUN mkdir -p /usr/src/app
-
-WORKDIR /usr/src/app
-
-COPY package.json /usr/src/app/
-
+# copy config files
+COPY package*.json ./
+COPY yarn.lock ./
+COPY tsconfig.json ./
 RUN npm install
 
-COPY . /usr/src/app
+COPY . .
+
+RUN yarn build
+COPY .env ./dist/
+
 
 EXPOSE 8080
 
-CMD ["yarn", "start-dev"]
+CMD ["yarn", "start"]
