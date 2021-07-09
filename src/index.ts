@@ -88,7 +88,7 @@ app.post('/api/v1/location/update', CampusController.updateLocation);
 
 
 app.get('/test', (req:Request, res:Response) => {
-  res.send('working change')
+  res.send('heroku container')
 });
 
 
