@@ -19,7 +19,8 @@ module.exports = {
     '!node_modules'
 ],
   coveragePathIgnorePatterns: [
-      "/node_modules/"
+      "node_modules/",
+      ""
     ],
   setupFiles: ["<rootDir>/jest/setup.js"],
 

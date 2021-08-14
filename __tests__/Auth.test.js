@@ -57,7 +57,7 @@ describe('Test Authentication', () => {
 
     describe('Get user information', () => {
         //should respond with a status code 403
-        test("Should respond with status code 200", async() => {
+        test("Should respond with status code 200 and contain user object", async() => {
 
              const response = await request(app).get('/api/v1/user/60c1d5d5a1527900154fec88')
 
