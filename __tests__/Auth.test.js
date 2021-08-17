@@ -55,14 +55,13 @@ describe('Test Authentication', () => {
 
 })
 
-    describe('Get user information', () => {
-        //should respond with a status code 403
+    describe('Get user details', () => {
         test("Should respond with status code 200 and contain user object", async() => {
 
              const response = await request(app).get('/api/v1/user/60c1d5d5a1527900154fec88')
 
             
-            //expect(response.statusCode).toBe(200)
+              expect(response.statusCode).toBe(200)
               expect(JSON.parse(response.text).hasOwnProperty('user')).toBe(true)
         })
 
