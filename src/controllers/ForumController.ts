@@ -38,6 +38,10 @@ class ForumController {
             console.log(post)
               const user = await Schema.User().findOne({_id: uid});
             if(user){
+
+              //check if post is empty
+              if(post.length > 0){
+
                 try{
                     await Schema.Post().create({
                         user: uid,
@@ -87,7 +91,10 @@ class ForumController {
                       return response.status(500).send({
                     message: 'Something went wrong'
       })
-                }
+                } 
+              } else {
+                return response.status(404).send({message: 'Post can not be empty '})
+              }
 
             } else {
                 return response.status(404).send({message: 'user not found'})
@@ -179,7 +186,10 @@ class ForumController {
               const post = await Schema.Post().findOne({_id: pid});
               const user = await Schema.User().findOne({_id: uid});
             if(post){
-                try{
+
+              //check comment field is not empty
+              if(comment.length > 0){
+            try{
                     await Schema.Comment().create({
                         user: uid,
                         post: pid,
@@ -222,6 +232,10 @@ class ForumController {
                     message: 'Something went wrong'
       })
                 }
+              } else {
+                 return response.status(404).send({message: 'Comment can not be empty '})
+              }
+  
 
             } else {
                 response.status(404).send({message: 'post not found'})

@@ -41,7 +41,7 @@ describe('Test Authentication', () => {
 
 })
 
-    describe('Given a wrong email or password', () => {
+    describe('Given invalid email or password', () => {
         //should respond with a status code 403
         test("Should respond with status code 401 or 403", async() => {
 
