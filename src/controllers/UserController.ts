@@ -72,7 +72,7 @@ class UserController {
       });
     } catch (error) {
       console.log(error.toString());
-      response.status(500).send({
+      response.status(400).send({
         message: "Somenthing went wrong",
       });
     }
