@@ -98,7 +98,7 @@ class UserController {
       });
     } else {
       return response.status(401).send({
-        message: "Incorrect Username",
+        message: "Incorrect Email Address",
       });
     }
   }
