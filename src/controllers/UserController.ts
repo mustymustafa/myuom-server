@@ -97,8 +97,8 @@ class UserController {
         token: UserController.generateToken(foundUser),
       });
     } else {
-      return response.status(400).send({
-        message: "Incorrect Username or Password",
+      return response.status(401).send({
+        message: "Incorrect Username",
       });
     }
   }
