@@ -89,7 +89,7 @@ class UserController {
 
     if (foundUser && Object.keys(foundUser).length > 0) {
       if (!bcrypt.compareSync(password, foundUser.password)) {
-        return response.status(403).send({
+        return response.status(400).send({
           message: "Incorrect Password",
         });
       }
@@ -97,7 +97,7 @@ class UserController {
         token: UserController.generateToken(foundUser),
       });
     } else {
-      return response.status(401).send({
+      return response.status(400).send({
         message: "Incorrect Username or Password",
       });
     }
