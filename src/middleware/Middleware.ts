@@ -14,22 +14,29 @@ export default class MiddleWare {
 
 
     let errors: {[error: string]: string}[] = []
-    if (!(/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(manchester)\.ac\.uk$/.test(email))) {
-      errors = [...errors, {
-        email: 'You have not entered an email'
-      }]
-    }
-    if (password.trim().length < 6) {
-      errors = [...errors, {
-        password: 'Password is too short'
-      }]
-    }
 
+
+     if (
+       !/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(manchester)\.ac\.uk$/.test(
+         email
+       )
+     ) {
+       return res.status(400).send({
+         message: "Please enter a correct UoM email address",
+       });
+     }
+
+     if (password.trim().length < 6) {
+       return res.status(400).send({
+         message: "Password is too short",
+       });
+     }
 
     if(cpassword !== password){
-      errors = [...errors, {
-        cpassword: 'Passwords do not match'
-      }]
+          return res.status(400).send({
+            message: "Passwords do not match",
+          });
+  
     }
 
   
@@ -37,20 +44,12 @@ export default class MiddleWare {
 
 
     if(!( (/^[a-zA-Z .'-]+\s[a-zA-Z .'-]+$/.test(fullname.trim()))  )){
-      errors =[
-        ...errors, {
-        errorMessage: 'Please enter your first and last name',
-        }
-     ]
+      
+       return res.status(400).send({
+         message: "Please enter your first and last name",
+       });
+  
     }
-
-
-  
-
-
-  
-
-
     if (errors.length) {
       return res.status(400).send({
         errors
@@ -60,22 +59,32 @@ export default class MiddleWare {
   }
 
   static signinMiddleware (req: Request, res: Response, next: NextFunction) {
-    let { email, password,  } = req.body;
+    let { email, password, } = req.body;
 
     email = email.trim();
     password = password.trim();
 
     let errors: {[error: string]: string}[] = []
+
+     if( !email ||  !password) {
+          return res.status(400).send({
+            message: "Please provide all information",
+          });
+  
+
+      }
+
      if (!(/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(manchester)\.ac\.uk$/.test(email))) {
-      errors = [...errors, {
-        email: 'Please enter a correct UoM email address'
-      }]
+          return res.status(400).send({
+            message: "Please enter a correct UoM email address",
+          });
+  
     }
 
     if (password.trim().length < 6) {
-      errors = [...errors, {
-        password: 'Password is too short'
-      }]
+        return res.status(400).send({
+          message: 'Password is too short',
+        });
     }
 
     if (errors.length) {

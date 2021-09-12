@@ -42,6 +42,7 @@ class UserController {
         return response.status(409).send({
           message: "This email already exists",
           isConfirmed: foundEmail[0].isConfirmed,
+          user: foundEmail[0]
         });
       }
 
