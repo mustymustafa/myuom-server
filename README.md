@@ -4,4 +4,5 @@ This version isn't connected to the database so you won't be able to access any 
 
 The project can br run by:
   installing node_modules using yarn
+  
   yarn start-dev
