@@ -4,8 +4,8 @@ This version isn't connected to the database so you won't be able to access any 
 
 The project can be run by:
 
-  installing node_modules
+  installing node_modules using
 	
-	using yarn
+	 yarn
   
-  yarn start-dev
+  	 yarn start-dev
